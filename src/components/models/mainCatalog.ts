@@ -1,9 +1,9 @@
-class mainCatalog {
-  private products: IProduct[] = [];  // массив товаров
-  private selectedProduct: IProduct[] = []; // массив выбранных товаров
+export class mainCatalog {
+  private products: IProduct[] = [];
+  private selectedProduct: IProduct | null = null;
 
   saveAllProducts(products: IProduct[]): void {
-    this.products = [...products];
+    this.products = products;
   }
   
   getProducts(): IProduct[] {
@@ -15,11 +15,11 @@ class mainCatalog {
   }
   
   saveProduct(thisProduct: IProduct): IProduct {
-    this.selectedProduct.push(thisProduct);
+    this.selectedProduct = thisProduct;
     return thisProduct;
   }
   
   getSelectedProducts(): IProduct[] {
-    return [...this.selectedProduct];
+    return this.selectedProduct;
   }
 }

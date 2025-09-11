@@ -38,50 +38,46 @@ export const apiProducts = {
     ]
 }
 
-export class basketItem {
-  private selectedItem: IProduct[] = [];
+export class basketItems {
+  private selectedItems: IProduct[] = [];
 
   getAllSelectedItems(): IProduct[] {
-    return [...this.selectedItem];
+    return [...this.selectedItems];
   }
 
   saveSelectedItem(item: IProduct): void {
-    this.selectedItem.push(item);
+    this.selectedItems.push(item);
   }
 
   deleteSelectedItemId(id: string): void {
-    this.selectedItem = this.selectedItem.filter(item => item.id !== id);
+    this.selectedItems = this.selectedItems.filter(item => item.id !== id);
   }
   
   clearBasket(): void {
-    this.selectedItem = []
+    this.selectedItems = []
   }
 
-  getAmountCount(): number {
-    let amount = 0;
-    for (const item of this.selectedItem) {
-      if (item.price !== null) {
-        amount += item.price;
-      }
-    }
-    return amount;
+  getTotalAmount(): number {
+    return this.selectedItems.reduce((total, item) => 
+        total + (item.price ?? 0), 0
+    );
   }
 
-  getAmountItems(): number {
-    return this.selectedItem.length
+  getTotalItems(): number {
+    return this.selectedItems.length
   }
 
   searchItem(id: string): IProduct | undefined {
-    return this.selectedItem.find(item => item.id === id);
+    return this.selectedItems.find(item => item.id === id);
   }
 }
 
-class mainCatalog {
-  private products: IProduct[] = [];  // массив товаров
-  private selectedProduct: IProduct[] = []; // массив выбранных товаров
+export class mainCatalog {
+  private products: IProduct[] = [];
+  private selectedProduct: IProduct | null = null;
 
   saveAllProducts(products: IProduct[]): void {
-    this.products = [...products];
+    this.products = products;
   }
   
   getProducts(): IProduct[] {
@@ -93,16 +89,16 @@ class mainCatalog {
   }
   
   saveProduct(thisProduct: IProduct): IProduct {
-    this.selectedProduct.push(thisProduct);
+    this.selectedProduct = thisProduct;
     return thisProduct;
   }
   
   getSelectedProducts(): IProduct[] {
-    return [...this.selectedProduct];
+    return this.selectedProduct;
   }
 }
 
-class Purchase {
+export class Purchase {
   private purchaseData: IBuyer = {
     payment: '' as TPayment,
     email: '',
@@ -111,11 +107,21 @@ class Purchase {
   };
 
   savePurchase(data: IBuyer): void {
-    this.purchaseData = {...data}
+    if (data.payment) {
+      this.purchaseData.payment = data.payment
+    } if (data.email) {
+      this.purchaseData.email = data.email
+    } if (data.phone) {
+      this.purchaseData.phone = data.phone
+    } if (data.address) {
+      this.purchaseData.address = data.address
+    }
   }
+
   getPurchase(): IBuyer {
     return {...this.purchaseData};
   }
+
   clearePurchase(): void {
     this.purchaseData = {
     payment: '' as TPayment,
@@ -124,39 +130,52 @@ class Purchase {
     address: ''
   };
   };
-  validate(): boolean {
-    if (!this.purchaseData.payment) {
-      return false;
+  
+  validate(data: IBuyer): string[] {
+    const errors: string[] = [];
+    
+    if (!data.payment || !['online', 'credit'].includes(data.payment)) {
+        errors.push('Выберите способ оплаты');
     }
-
-    if (!this.purchaseData.address.trim() || this.purchaseData.address.trim().length < 5) {
-      return false;
+    if (!data.email || !data.email.includes('@')) {
+        errors.push('Некорректный Email');
     }
-
-    const phoneRegex = /^(\+7|8)[\d\-\(\)\s]{10,15}$/;
-    if (!this.purchaseData.phone.trim() || !phoneRegex.test(this.purchaseData.phone.replace(/\s/g, ''))) {
-      return false;
+    if (!data.phone || data.phone.length < 9) {
+        errors.push('Некорректный номер телефона');
     }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!this.purchaseData.email.trim() || !emailRegex.test(this.purchaseData.email)) {
-      return false;
+    if (!data.address || data.address.length < 5) {
+        errors.push('Некорректный адрес');
     }
+    
+    if (errors.length === 0) {
+        Object.assign(this.purchaseData, data);
+    }
+    
+    return errors;
+  }
+}
 
-    return true;
+export class getApiService {
+  constructor(private api: IApi) {}
+  async getProducts(): Promise<IProduct[]> {
+    return this.api.get<IProduct[]>('/product/');
+  }
+
+  async createOrder(orderData: Order): Promise<unknown> {
+    return this.api.post('/order/', orderData, 'POST');
   }
 }
 
 // basketItem
 console.log("Basket")
-const productsModel = new basketItem();
+const productsModel = new basketItems();
 productsModel.saveSelectedItem(apiProducts.items[2]);
 console.log(productsModel.getAllSelectedItems())
 productsModel.saveSelectedItem(apiProducts.items[3]);
 productsModel.saveSelectedItem(apiProducts.items[0]);
 console.log(productsModel.getAllSelectedItems())
-console.log(productsModel.getAmountItems())
-console.log(productsModel.getAmountCount())
+console.log(productsModel.getTotalItems())
+console.log(productsModel.getTotalAmount())
 console.log(productsModel.clearBasket())
 
 // mainCatalog
