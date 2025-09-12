@@ -1,6 +1,7 @@
 import './scss/styles.scss';
 import { apiProducts } from "./utils/data";
 import { Api } from './components/base/Api';
+import { API_URL } from './utils/constants';
 import { getApiService } from './components/models/getApiService';
 import { basketItems } from "./components/models/basketItem";
 import { mainCatalog } from './components/models/mainCatalog';
@@ -57,8 +58,6 @@ productsPurchase.savePurchase({
   console.log(productsPurchase.validate())
 
   // api
-  import { API_URL } from './utils/constants';
-  console.log(API_URL)
 const api = new Api(API_URL);
 const apiService = new getApiService(api);
 
