@@ -22,6 +22,11 @@ export interface IBuyer {
   address: string
 }
 
+export interface productsApi {
+  total: number;
+  items: IProduct[];
+}
+
 export interface Order extends IBuyer {
   items: string[];
   total: number;

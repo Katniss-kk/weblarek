@@ -31,24 +31,19 @@ export class Purchase {
   };
   };
   
-  validate(data: IBuyer): string[] {
+  validate(): string[] {
     const errors: string[] = [];
-    
-    if (!data.payment || !['online', 'credit'].includes(data.payment)) {
+    if (this.purchaseData !== "online" && this.purchaseData.payment !== "credit") {
         errors.push('Выберите способ оплаты');
     }
-    if (!data.email || !data.email.includes('@')) {
+    if (this.purchaseData.email.trim() === '') {
         errors.push('Некорректный Email');
     }
-    if (!data.phone || data.phone.length < 9) {
+    if (this.purchaseData.phone.trim() === '') {
         errors.push('Некорректный номер телефона');
     }
-    if (!data.address || data.address.length < 5) {
+    if (this.purchaseData.address.trim() === '') {
         errors.push('Некорректный адрес');
-    }
-    
-    if (errors.length === 0) {
-        Object.assign(this.purchaseData, data);
     }
     
     return errors;
