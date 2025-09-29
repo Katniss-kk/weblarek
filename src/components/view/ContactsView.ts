@@ -35,9 +35,9 @@ export class ContactsView {
 
   setButton(result: Boolean) {
   if (result === true) {
-    this.buttonPay.disabled = false;
+    this.buttonPay.disabled = !result;
   } else if (result === false) {
-    this.buttonPay.disabled = true;
+    this.buttonPay.disabled = !result;
    }
   };
 

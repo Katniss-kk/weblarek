@@ -200,6 +200,13 @@ Presenter - презентер содержит основную логику п
 Методы класса:
 `setTemplate(products: IProduct[]): HTMLElement[]` - создает массив карточек товара
 
+#### Класс galeryCardView
+
+`constructor(private events: IEvents)` - принимает действия пользователя
+
+Методы класса:
+`render(product: IProduct): HTMLElement` - создание одного экземпляра карточки для Galery
+
 #### Класс Modal
 Класс отвечает за реализация модал окна и его контента
 

@@ -50,7 +50,7 @@ export class SelectProductView {
     this.title.textContent = product.title;
     this.text.textContent = product.description;
 
-    if(typeof product.price === 'number') {
+    if (product.price !== null) {
       this.price.textContent = `${product.price} синапсов`;
       this.button.textContent = 'Добавить в корзину';
       this.button.disabled = false;
@@ -62,13 +62,16 @@ export class SelectProductView {
     return this.template;
   }
 
-  setButton() {
-  if (this.button.textContent === 'Добавить в корзину') {
-    this.button.textContent = 'Удалить из корзины';
-  } else if (this.button.textContent === 'Удалить из корзины') {
-    this.button.textContent = 'Добавить в корзину';
-  } else if (this.price.textContent === 'Бесценно'){
-    this.button.textContent = 'Недоступно'
-  } else {return}
+  setButton(isInBasket: boolean | null) {
+    if (isInBasket === null) {
+        this.button.textContent = 'Недоступно';
+        this.button.disabled = true;
+    } else if (isInBasket) {
+        this.button.textContent = 'Удалить из корзины';
+        this.button.disabled = false;
+    } else {
+        this.button.textContent = 'Добавить в корзину';
+        this.button.disabled = false;
+    }
 }
 }
