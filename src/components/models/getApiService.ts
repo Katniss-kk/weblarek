@@ -1,3 +1,8 @@
+import { IApi } from "../../types";
+import { productsApi } from "../../types";
+import { Order } from "../../types";
+import { OrderResponse } from "../../types";
+
 export class getApiService {
   constructor(private api: IApi) {}
   

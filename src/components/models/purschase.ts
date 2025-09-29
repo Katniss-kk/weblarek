@@ -1,3 +1,6 @@
+import { IBuyer } from "../../types";
+import { TPayment } from "../../types";
+
 export class Purchase {
   private purchaseData: IBuyer = {
     payment: '' as TPayment,
@@ -31,19 +34,25 @@ export class Purchase {
   };
   };
   
-  validate(): string[] {
+validateOrder(): string[] {
     const errors: string[] = [];
-    if (this.purchaseData !== "online" && this.purchaseData.payment !== "credit") {
+    if (this.purchaseData.payment !== "online" && this.purchaseData.payment !== "cash") {
         errors.push('Выберите способ оплаты');
     }
+    if (this.purchaseData.address.trim() === '') {
+        errors.push('Некорректный адрес');
+    }
+    
+    return errors;
+}
+
+  validateContacts(): string[] {
+    const errors: string[] = [];
     if (this.purchaseData.email.trim() === '') {
         errors.push('Некорректный Email');
     }
     if (this.purchaseData.phone.trim() === '') {
         errors.push('Некорректный номер телефона');
-    }
-    if (this.purchaseData.address.trim() === '') {
-        errors.push('Некорректный адрес');
     }
     
     return errors;

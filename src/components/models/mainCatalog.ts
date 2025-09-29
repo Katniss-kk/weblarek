@@ -1,3 +1,5 @@
+import { IProduct } from "../../types";
+
 export class mainCatalog {
   private products: IProduct[] = [];
   private selectedProduct: IProduct | null = null;

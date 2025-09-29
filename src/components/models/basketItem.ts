@@ -1,3 +1,5 @@
+import { IProduct } from "../../types";
+
 export class basketItems {
   private selectedItems: IProduct[] = [];
 
