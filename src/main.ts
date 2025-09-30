@@ -153,8 +153,9 @@ events.on('addressinput:text', () => {
     if (errors.length === 0) {
         orderView.enableButton();
     } else {
-        console.log(errors);
         orderView.disableButton();
+        alert(errors.join('\n'));
+        console.log(errors);
     }
 });
 
@@ -172,6 +173,7 @@ events.on('emailInput:text', () => {
         contactsView.setButton(true);
     } else {
         contactsView.setButton(false);
+        alert(errors.join('\n'));
         console.log(errors);
     }
 });
