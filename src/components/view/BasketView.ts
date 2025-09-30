@@ -24,15 +24,18 @@ export class BasketView extends Component<HTMLElement> {
         
         if (items.length === 0) {
             this.basketList.textContent = 'Корзина пуста';
+            this.button.disabled = true;
         } else {
             items.forEach(item => {
                 this.basketList.appendChild(item);
             });
+            this.button.disabled = false;
         }
+        
         return this.container;
     }
 
     setAmountCount(count: number) {
-        this.price.textContent = `${count} синапсов`
+        this.price.textContent = `${count} синапсов`;
     }
 }
