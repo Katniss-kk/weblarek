@@ -113,10 +113,14 @@ events.on('basket:delete', (id: string) => {
     events.emit('basket:updated');
 });
 
+let orderErrorShown = false;
+let contactsErrorShown = false;
+
 // Форма покупки
 events.on('buy:click', () => {
     console.log('открываем форму покупки');
     purchaseModel.clearePurchase();
+    orderErrorShown = false;
     modal.open(orderView.setTemplate());
 });
 
@@ -127,9 +131,14 @@ events.on('buttonCash:click', () => {
     const errors = purchaseModel.validateOrder();
     if (errors.length === 0) {
         orderView.enableButton();
+        orderErrorShown = false;
     } else {
         orderView.disableButton();
         console.log(errors);
+        if (!orderErrorShown) {
+            alert(errors.join('\n'));
+            orderErrorShown = true;
+        }
     }
 });
 
@@ -140,9 +149,14 @@ events.on('buttonCard:click', () => {
     const errors = purchaseModel.validateOrder();
     if (errors.length === 0) {
         orderView.enableButton();
+        orderErrorShown = false;
     } else {
         orderView.disableButton();
         console.log(errors);
+        if (!orderErrorShown) {
+            alert(errors.join('\n'));
+            orderErrorShown = true;
+        }
     }
 });
 
@@ -152,16 +166,21 @@ events.on('addressinput:text', () => {
     const errors = purchaseModel.validateOrder();
     if (errors.length === 0) {
         orderView.enableButton();
+        orderErrorShown = false;
     } else {
         orderView.disableButton();
-        alert(errors.join('\n'));
         console.log(errors);
+        if (!orderErrorShown) {
+            alert(errors.join('\n'));
+            orderErrorShown = true;
+        }
     }
 });
 
 events.on('buttonNext:click', () => {
     console.log('переходим к контактам');
     console.log(purchaseModel.getPurchase());
+    contactsErrorShown = false;
     modal.open(contactsView.setTemplate());
 });
 
@@ -171,10 +190,14 @@ events.on('emailInput:text', () => {
     const errors = purchaseModel.validateContacts();
     if (errors.length === 0) {
         contactsView.setButton(true);
+        contactsErrorShown = false;
     } else {
         contactsView.setButton(false);
-        alert(errors.join('\n'));
         console.log(errors);
+        if (!contactsErrorShown) {
+            alert(errors.join('\n'));
+            contactsErrorShown = true;
+        }
     }
 });
 
@@ -184,9 +207,14 @@ events.on('phoneInput:text', () => {
     const errors = purchaseModel.validateContacts();
     if (errors.length === 0) {
         contactsView.setButton(true);
+        contactsErrorShown = false;
     } else {
         contactsView.setButton(false);
         console.log(errors);
+        if (!contactsErrorShown) {
+            alert(errors.join('\n'));
+            contactsErrorShown = true;
+        }
     }
 });
 
