@@ -4,11 +4,9 @@ import { IEvents } from "../base/Events";
 
 export class BasketPreview {
   constructor(private events: IEvents) {
-    // Убрали this.template - он не нужен
   }
 
   setTemplate(product: IProduct, index: number): HTMLElement {
-    // Создаем новый template для каждой карточки
     const card = cloneTemplate<HTMLElement>('#card-basket');
 
     const indexElement = ensureElement<HTMLElement>('.basket__item-index', card);

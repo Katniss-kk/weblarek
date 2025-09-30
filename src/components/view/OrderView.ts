@@ -75,6 +75,4 @@ export class OrderView {
   disableButton() {
     this.buttonNext.disabled = true;
   }
-
-  
 }
