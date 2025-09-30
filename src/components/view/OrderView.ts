@@ -9,6 +9,7 @@ export class OrderView {
   private inputAddress: HTMLInputElement;
   private buttonNext: HTMLButtonElement;
   private events: IEvents;
+  private errors: HTMLElement
 
   constructor(events: IEvents) {
     this.events = events;
@@ -18,6 +19,7 @@ export class OrderView {
     this.buttonCard = ensureElement<HTMLButtonElement>('button[name="card"]', this.template);
     this.inputAddress = ensureElement<HTMLInputElement>('input[name="address"]', this.template);
     this.buttonNext = ensureElement<HTMLButtonElement>('.order__button', this.template);
+    this.errors = ensureElement<HTMLElement>('.form__errors', this.template)
 
         this.buttonCash.addEventListener('click', () => {
       this.buttonCard.classList.remove('button_alt-active');
@@ -45,7 +47,7 @@ export class OrderView {
     const payment: TPayment = this.buttonCash.classList.contains('button_alt-active') 
       ? 'cash' 
       : this.buttonCard.classList.contains('button_alt-active') 
-        ? 'online' 
+        ? 'card' 
         : '' as TPayment;
 
         const address = this.inputAddress.value
@@ -74,5 +76,14 @@ export class OrderView {
 
   disableButton() {
     this.buttonNext.disabled = true;
+  }
+
+  setErrors(errors: string) {
+    this.errors.textContent = ''
+    this.errors.textContent = errors;
+  }
+
+  resetErrors() {
+    this.errors.textContent = ''
   }
 }

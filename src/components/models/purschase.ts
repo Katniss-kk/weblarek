@@ -36,7 +36,7 @@ export class Purchase {
   
 validateOrder(): string[] {
     const errors: string[] = [];
-    if (this.purchaseData.payment !== "online" && this.purchaseData.payment !== "cash") {
+    if (this.purchaseData.payment !== 'card' && this.purchaseData.payment !== 'cash') {
         errors.push('Выберите способ оплаты');
     }
     if (this.purchaseData.address.trim() === '') {

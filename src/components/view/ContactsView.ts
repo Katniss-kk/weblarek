@@ -7,13 +7,15 @@ export class ContactsView {
   private inputEmail: HTMLInputElement;
   private inputPhone: HTMLInputElement;
   private events: IEvents;
+  private errors: HTMLElement;
 
   constructor(events: IEvents) {
     this.template = cloneTemplate<HTMLElement>('#contacts');
     this.buttonPay = ensureElement<HTMLButtonElement>('.button', this.template);
     this.inputEmail = ensureElement<HTMLInputElement>('input[name="email"]', this.template);
     this.inputPhone = ensureElement<HTMLInputElement>('input[name="phone"]', this.template);
-    this.events = events
+    this.events = events;
+    this.errors = ensureElement<HTMLElement>('.form__errors', this.template);
 
     this.buttonPay.disabled = false
 
@@ -48,9 +50,18 @@ export class ContactsView {
     };
   }
 
-    resetForm(): void {
+  resetForm(): void {
     this.inputEmail.value = '';
     this.inputPhone.value = '';
     this.setButton(false);
+  }
+
+  setErrors(errors: string) {
+    this.errors.textContent = ''
+    this.errors.textContent = errors;
+  }
+
+  resetErrors() {
+    this.errors.textContent = ''
   }
 }

@@ -129,17 +129,13 @@ events.on('buttonCash:click', () => {
     const formData = orderView.getFormData();
     purchaseModel.savePurchase(formData);
     const errors = purchaseModel.validateOrder();
-    if (errors.length === 0) {
-        orderView.enableButton();
-        orderErrorShown = false;
+        if(errors.length === 0) {
+            orderView.resetErrors();
+            orderView.enableButton();
     } else {
+        errors.forEach(error => orderView.setErrors(error));
         orderView.disableButton();
-        console.log(errors);
-        if (!orderErrorShown) {
-            alert(errors.join('\n'));
-            orderErrorShown = true;
-        }
-    }
+    };
 });
 
 events.on('buttonCard:click', () => {
@@ -147,34 +143,26 @@ events.on('buttonCard:click', () => {
     const formData = orderView.getFormData();
     purchaseModel.savePurchase(formData);
     const errors = purchaseModel.validateOrder();
-    if (errors.length === 0) {
-        orderView.enableButton();
-        orderErrorShown = false;
+        if(errors.length === 0) {
+            orderView.resetErrors();
+            orderView.enableButton();
     } else {
+        errors.forEach(error => orderView.setErrors(error));
         orderView.disableButton();
-        console.log(errors);
-        if (!orderErrorShown) {
-            alert(errors.join('\n'));
-            orderErrorShown = true;
-        }
-    }
+    };
 });
 
 events.on('addressinput:text', () => {
     const formData = orderView.getFormData();
     purchaseModel.savePurchase(formData);
     const errors = purchaseModel.validateOrder();
-    if (errors.length === 0) {
-        orderView.enableButton();
-        orderErrorShown = false;
+        if(errors.length === 0) {
+            orderView.resetErrors();
+            orderView.enableButton();
     } else {
+        errors.forEach(error => orderView.setErrors(error));
         orderView.disableButton();
-        console.log(errors);
-        if (!orderErrorShown) {
-            alert(errors.join('\n'));
-            orderErrorShown = true;
-        }
-    }
+    };
 });
 
 events.on('buttonNext:click', () => {
@@ -188,34 +176,26 @@ events.on('emailInput:text', () => {
     const formData = contactsView.getFormData();
     purchaseModel.savePurchase(formData);
     const errors = purchaseModel.validateContacts();
-    if (errors.length === 0) {
-        contactsView.setButton(true);
-        contactsErrorShown = false;
+    if(errors.length === 0) {
+            contactsView.resetErrors();
+            contactsView.setButton(true);
     } else {
+        errors.forEach(error => contactsView.setErrors(error));
         contactsView.setButton(false);
-        console.log(errors);
-        if (!contactsErrorShown) {
-            alert(errors.join('\n'));
-            contactsErrorShown = true;
-        }
-    }
+    };
 });
 
 events.on('phoneInput:text', () => {
     const formData = contactsView.getFormData();
     purchaseModel.savePurchase(formData);
     const errors = purchaseModel.validateContacts();
-    if (errors.length === 0) {
-        contactsView.setButton(true);
-        contactsErrorShown = false;
+    if(errors.length === 0) {
+            contactsView.resetErrors();
+            contactsView.setButton(true);
     } else {
+        errors.forEach(error => orderView.setErrors(error));
         contactsView.setButton(false);
-        console.log(errors);
-        if (!contactsErrorShown) {
-            alert(errors.join('\n'));
-            contactsErrorShown = true;
-        }
-    }
+    };
 });
 
 // Отправка формы контактов
@@ -246,7 +226,7 @@ events.on('buttonPay:click', async () => {
         
     } catch (error) {
         console.error(error);
-        alert(error)
+        modal.open(success.setTemplate()); // тут конечно вопрос надо оно или нет. но т.к валидации на этот счет нет я выведу для показа функционала
     }
 });
 

@@ -235,6 +235,8 @@ Presenter - презентер содержит основную логику п
 `setTemplate(): HTMLElement` - установить готовый Template
 `enableButton()` - включения кнопки
 `disableButton()` - выключение кнопки
+`setErrors(errors: string)` - устанавливает ошибки в свое окно
+`resetErrors()` - сбрасывает ошибки в своем окне
 
 #### Класс ContactsView
 Класс отвечает за указанные контакты клиента, наследуется от класса OrderBuyerView
@@ -245,6 +247,8 @@ Presenter - презентер содержит основную логику п
 `setTemplate()` - установить готовый Template
 `setButton(result: Boolean)` - изменить состояние кнопки
 `getFormData(): { email: string; phone: string }` - получить данные введенные пользователем
+`setErrors(errors: string)` - устанавливает ошибки в свое окно
+`resetErrors()` - сбрасывает ошибки в своем окне
 
 #### Класс Success
 Класс отвечает за отображение успешного оформления заказа
