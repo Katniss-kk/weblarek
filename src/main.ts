@@ -226,7 +226,6 @@ events.on('buttonPay:click', async () => {
         
     } catch (error) {
         console.error(error);
-        modal.open(success.setTemplate()); // тут конечно вопрос надо оно или нет. но т.к валидации на этот счет нет я выведу для показа функционала
     }
 });
 
